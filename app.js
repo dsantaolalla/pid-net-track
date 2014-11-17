@@ -6,9 +6,11 @@ var client = new elasticsearch.Client({
   log: 'trace'
 });
 
+var moment = require('moment');
+
 netstat.on( 'stdout', function( netLine ){
 	netstat.parse( netLine ).forEach (function (line) {
-			line.time=""+new Date();
+			line['@timestamp']=moment().format();
 			console.log(line);		
 			publishToElasticSearch(line);
 		});
